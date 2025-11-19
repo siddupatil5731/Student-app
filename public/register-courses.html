@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register Courses</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h2>Select Courses</h2>
+  <form id="courses-form">
+    <label><input type="checkbox" name="courses" value="Web Development"> Web Development</label><br>
+    <label><input type="checkbox" name="courses" value="Data Science"> Data Science</label><br>
+    <label><input type="checkbox" name="courses" value="Machine Learning"> Machine Learning</label><br>
+    <label><input type="checkbox" name="courses" value="Cloud Computing"> Cloud Computing</label><br>
+    <button type="submit">Register Courses</button>
+  </form>
+
+  <script src="/js/script.js"></script>
+  <script>
+    const form = document.getElementById('courses-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const selectedCourses = Array.from(form.courses)
+        .filter(c => c.checked)
+        .map(c => c.value);
+
+      const email = new URLSearchParams(window.location.search).get('email');
+
+      const res = await fetch('/register-courses', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, courses: selectedCourses })
+      });
+
+      if (res.ok) {
+        window.location.href = 'courses.html?email=' + encodeURIComponent(email);
+      } else {
+        const text = await res.text();
+        alert(text);
+      }
+    });
+  </script>
+</body>
+</html>
