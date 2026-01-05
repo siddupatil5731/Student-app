@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // ✅ Needed for JSON POST
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect('mongodb+srv://Archana:Archana2408@cluster0.c0vysdx.mongodb.net/studentDB?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://02fe23bcs135_db_user:siddu%401234@cluster0.ef3hqdg.mongodb.net/studentDB?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => {
     console.log("✅ MongoDB Connected Successfully");
   })
@@ -93,6 +93,35 @@ app.get('/student-courses/:email', async (req, res) => {
   const student = await Student.findOne({ email: req.params.email }).populate('courses');
   if (!student) return res.status(404).send('Student not found');
   res.json(student.courses);
+});
+
+// Get all courses
+app.get('/courses', async (req, res) => {
+  try {
+    const courses = await Course.find();
+    res.json(courses);
+  } catch (err) {
+    res.status(500).send('Error fetching courses');
+  }
+});
+
+// Remove a course from a student's enrollment
+app.delete('/student-courses/:courseId', async (req, res) => {
+  try {
+    const { courseId } = req.params;
+    const { email } = req.body;
+    
+    const student = await Student.findOne({ email });
+    if (!student) return res.status(404).send('Student not found');
+    
+    // Remove the course ID from the student's courses array
+    student.courses = student.courses.filter(courseId => courseId.toString() !== courseId);
+    await student.save();
+    
+    res.json({ message: 'Course removed from student successfully' });
+  } catch (err) {
+    res.status(500).send('Error removing course from student');
+  }
 });
 
 // Start server

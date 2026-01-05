@@ -6,25 +6,81 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <h2>Select Courses</h2>
-  <form id="courses-form">
-    <label><input type="checkbox" name="courses" value="Web Development"> Web Development</label><br>
-    <label><input type="checkbox" name="courses" value="Data Science"> Data Science</label><br>
-    <label><input type="checkbox" name="courses" value="Machine Learning"> Machine Learning</label><br>
-    <label><input type="checkbox" name="courses" value="Cloud Computing"> Cloud Computing</label><br>
-    <button type="submit">Register Courses</button>
-  </form>
+  <div class="container">
+    <h2>Select Courses</h2>
+    
+    <form id="courses-form">
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Web Development"> 
+          <span>Web Development</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Data Science"> 
+          <span>Data Science</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Machine Learning"> 
+          <span>Machine Learning</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Cloud Computing"> 
+          <span>Cloud Computing</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Mobile App Development"> 
+          <span>Mobile App Development</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Cyber Security"> 
+          <span>Cyber Security</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Artificial Intelligence"> 
+          <span>Artificial Intelligence</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Database Management"> 
+          <span>Database Management</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Computer Networks"> 
+          <span>Computer Networks</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Software Engineering"> 
+          <span>Software Engineering</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Operating Systems"> 
+          <span>Operating Systems</span>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" name="courses" value="Digital Marketing"> 
+          <span>Digital Marketing</span>
+        </div>
+      </div>
+      <button type="submit">Register Courses</button>
+    </form>
+    
+    <a href="login.html" class="logout-link">Logout</a>
+  </div>
 
   <script src="/js/script.js"></script>
   <script>
     const form = document.getElementById('courses-form');
+    const email = new URLSearchParams(window.location.search).get('email');
+    
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const selectedCourses = Array.from(form.courses)
         .filter(c => c.checked)
         .map(c => c.value);
 
-      const email = new URLSearchParams(window.location.search).get('email');
+      if (selectedCourses.length === 0) {
+        alert('Please select at least one course');
+        return;
+      }
 
       const res = await fetch('/register-courses', {
         method: 'POST',
