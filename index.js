@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // ✅ Needed for JSON POST
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect('mongodb+srv://02fe23bcs135_db_user:siddu%401234@cluster0.ef3hqdg.mongodb.net/studentDB?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://02fe23bcs135_db_user:siddu2402@cluster0.ef3hqdg.mongodb.net/studentDB?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => {
     console.log("✅ MongoDB Connected Successfully");
   })
